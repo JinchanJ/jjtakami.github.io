@@ -22,6 +22,53 @@
       .active { font-weight: 700; }
       img { max-width: 100%; height: auto; border-radius: 10px; }
       .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+      /* Sidebar accordion (no-JS) */
+      .sidebar .toggle { display: none; }
+
+      .sidebar .site-title {
+        display: block;
+        font-weight: 800;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* Years */
+      .year-label, .month-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+        padding: 6px 0;
+        font-weight: 700;
+        color: #113164;
+      }
+
+      .sidebar .caret { opacity: 0.7; }
+
+      /* Hide/Show year contents */
+      .year-toggle + .year-label + .months { display: none; }
+      .year-toggle:checked + .year-label + .months { display: block; }
+
+      /* Hide/Show month contents */
+      .month-toggle + .month-label + .days { display: none; padding-left: 14px; margin-top: 4px; }
+      .month-toggle:checked + .month-label + .days { display: block; }
+
+      /* Link styling */
+      .sidebar a.day {
+        display: block;
+        padding: 4px 0;
+        text-decoration: none;
+        color: inherit;
+        opacity: 0.92;
+        color: #113164;
+      }
+
+      .sidebar a.day:hover { opacity: 1; text-decoration: underline; }
+      .sidebar a.day.active { font-weight: 700; opacity: 1; text-decoration: underline; }
+
     </style>
   </head>
   <body>
