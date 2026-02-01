@@ -16,7 +16,7 @@
     {%- assign months = yg.items | group_by_exp: "p", "p.date | date: '%Y-%m'" -%}
 
     {%- for mg in months -%}
-      {%- assign month_label = mg.name | date: "%B" -%}
+      {% assign month_label = mg.name | date: "%B" %}
 
       {%- comment -%}
       Determine whether this month should be open:
