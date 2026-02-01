@@ -2,3 +2,4 @@ title: "My Daily Notes"
 theme: minima
 markdown: kramdown
 permalink: /:year/:month/:day/:title/
+baseurl: "/REPO"
