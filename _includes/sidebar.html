@@ -1,0 +1,39 @@
+{% assign posts = site.posts %}
+
+{%- comment -%}
+We group by year-month (e.g. "2026-01"), and within each month we list days that have entries.
+If you ever have multiple entries on the same day, it still shows the day once (links to the newest one that day).
+{%- endcomment -%}
+
+{% assign month_groups = posts | group_by_exp: "p", "p.date | date: '%Y-%m'" %}
+
+<div>
+  <div style="font-weight:800; font-size: 1.1rem; margin-bottom: 8px;">
+    {{ site.title }}
+  </div>
+
+  {% for mg in month_groups %}
+    {% assign month_label = mg.name | date: "%B %Y" %}
+    <div class="month">
+      <div class="month-title">{{ month_label }}</div>
+
+      {%- assign day_groups = mg.items | group_by_exp: "p", "p.date | date: '%-d'" -%}
+      {%- for dg in day_groups -%}
+        {%- assign day = dg.name -%}
+        {%- assign newest_post_that_day = dg.items[0] -%}
+
+        {%- assign is_active = false -%}
+        {%- if page.url == newest_post_that_day.url -%}
+          {%- assign is_active = true -%}
+        {%- endif -%}
+
+        <a class="day {% if is_active %}active{% endif %}" href="{{ newest_post_that_day.url }}">
+          {{ day }}
+          {%- if newest_post_that_day.title -%}
+            — {{ newest_post_that_day.title }}
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  {% endfor %}
+</div>
