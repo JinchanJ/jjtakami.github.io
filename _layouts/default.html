@@ -6,13 +6,14 @@
     <title>{{ page.title }} · {{ site.title }}</title>
     <style>
       body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: #4e4865; color: #eae7f2}
-      .wrap { display: grid; grid-template-columns: 200px 1fr; min-height: 100vh; }
+      .wrap { display: grid; grid-template-columns: minmax(0, 1fr) 200px; min-height: 100vh; }
       aside { border-right: 1px solid rgba(255,255,255,0.15); padding: 16px; overflow: auto; position: sticky; top: 0; height: 100vh; background: #3d3656}
       main {
         max-width: 75ch;
         width: 100%;
         padding: 30px;
         margin-right: auto;
+        min-width: 0;
       }
       .month { margin: 10px 0; }
       .month-title { font-weight: 700; margin: 10px 0 6px; }
