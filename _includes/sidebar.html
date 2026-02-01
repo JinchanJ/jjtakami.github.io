@@ -28,9 +28,10 @@ If you ever have multiple entries on the same day, it still shows the day once (
         {%- endif -%}
 
         <a class="day {% if is_active %}active{% endif %}" href="{{ newest_post_that_day.url | relative_url }}">
-          {{ day }}
-            {%- if newest_post_that_day.title -%} | {{ newest_post_that_day.title }}
-          {%- endif -%}
+        {{ day }}
+        {%- if newest_post_that_day.title -%}
+            | {{ newest_post_that_day.title }}
+        {%- endif -%}
         </a>
       {%- endfor -%}
     </div>
