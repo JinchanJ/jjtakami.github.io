@@ -1,10 +1,21 @@
 {% assign posts = site.posts %}
 
+{%- comment -%}
+Pick a reference date:
+- If we're on a post page (page.date exists), use that.
+- Otherwise (welcome / non-post pages), use newest post.
+{%- endcomment -%}
+{% assign ref_date = page.date %}
+{% if ref_date == nil %}
+  {% assign ref_date = site.posts.first.date %}
+{% endif %}
+
+{% assign open_year_month = ref_date | date: "%Y-%m" %}
+
 <div>
-  <a href="{{ '/' | relative_url }}"
-    style="display:block; font-weight:800; font-size: 1.1rem; margin-bottom: 8px; text-decoration:none; color:inherit;">
+  <div style="font-weight:800; font-size: 1.1rem; margin-bottom: 8px;">
     {{ site.title }}
-  </a>
+  </div>
 
   {%- assign years = posts | group_by_exp: "p", "p.date | date: '%Y'" -%}
 
@@ -13,31 +24,16 @@
       {{ yg.name }}
     </div>
 
-    {%- assign months = yg.items | group_by_exp: "p", "p.date | date: '%B'" -%}
+    {%- assign months = yg.items | group_by_exp: "p", "p.date | date: '%Y-%m'" -%}
 
     {%- for mg in months -%}
-      {% assign month_label = mg.name | date: "%B" %}
-
-      {%- comment -%}
-      Determine whether this month should be open:
-      - open if it contains the current page (active post), else
-      - open the newest month (first month of the first year group)
-      {%- endcomment -%}
-
-      {%- assign has_active = false -%}
-      {%- for p in mg.items -%}
-        {%- if page.url == p.url -%}
-          {%- assign has_active = true -%}
-        {%- endif -%}
-      {%- endfor -%}
-
-      {%- assign is_newest_month = false -%}
-      {%- if forloop.first and forloop.parentloop.first -%}
-        {%- assign is_newest_month = true -%}
+      {%- assign month_label = mg.name | date: "%B" -%}
+      {%- assign should_open = false -%}
+      {%- if mg.name == open_year_month -%}
+        {%- assign should_open = true -%}
       {%- endif -%}
 
-      <details class="month" style="margin: 6px 0;"
-        {% if has_active or is_newest_month %}open{% endif %}>
+      <details class="month" style="margin: 6px 0;" {% if should_open %}open{% endif %}>
         <summary class="month-title" style="cursor: pointer;">
           {{ month_label }}
         </summary>
@@ -55,7 +51,7 @@
 
             <a class="day {% if is_active %}active{% endif %}"
                href="{{ newest_post_that_day.url | relative_url }}">
-              {{ day }}{% if newest_post_that_day.title %} - {{ newest_post_that_day.title }}{% endif %}
+              {{ day }}{% if newest_post_that_day.title %} | {{ newest_post_that_day.title }}{% endif %}
             </a>
           {%- endfor -%}
         </div>
